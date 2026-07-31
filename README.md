@@ -30,5 +30,5 @@ PixelKeys Store es una aplicación web full-stack para la gestión y visualizaci
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone [https://github.com/TU_USUARIO/PixelKeys-Store.git](https://github.com/TU_USUARIO/PixelKeys-Store.git)
+git clone https://github.com/UP240259/PixelKeys-Store
 cd PixelKeys-Store
