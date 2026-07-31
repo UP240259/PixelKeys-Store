@@ -1,16 +1,33 @@
-# React + Vite
+# 💻 PixelKeys Store - Frontend (SPA)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interfaz de usuario moderna para la tienda **PixelKeys Store**, desarrollada como una Single Page Application (SPA) con React y empaquetada mediante Vite.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tecnologías Utilizadas
 
-## React Compiler
+* **React:** Librería para la construcción de interfaces basadas en componentes de estado.
+* **Vite:** Herramienta de compilación ultrarrápida para desarrollo web.
+* **Axios:** Cliente HTTP para la comunicación de peticiones asíncronas con NestJS.
+* **Lucide React:** Biblioteca de íconos vectoriales livianos.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🎯 Funcionalidades de la Interfaz
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* 🎮 **Catálogo Dinámico:** Renderizado automático de tarjetas de juegos con precios, ofertas y etiquetas de plataforma.
+* 🔍 **Filtro / Buscador en Tiempo Real:** Filtrado de juegos dinámico por coincidencia en el título o plataforma.
+* ➕ **Gestión CRUD Integrada:** Formulario en ventana modal para la creación y edición de registros.
+* 🗑️ **Eliminación Segura:** Confirmación visual previa a la eliminación de un registro en la API.
+* 🖼️ **Control de Fallback en Imágenes:** Manejo de carátulas no disponibles o enlaces rotos con reemplazo automático por plantilla local.
+
+---
+
+## 🚀 Comandos de Ejecución
+
+```bash
+# Instalar dependencias de cliente
+npm install
+
+# Iniciar servidor de desarrollo local
+npm run dev
