@@ -1,0 +1,22 @@
+info:
+  name: Actualizar Juego
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: http://localhost:3000/juegos/1
+  body:
+    type: json
+    data: |-
+      {
+        "precio": 99.99,
+        "descuento": 15
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

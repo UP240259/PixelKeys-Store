@@ -1,0 +1,28 @@
+info:
+  name: Crear Juego
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:3000/juegos
+  body:
+    type: json
+    data: |-
+      {
+        "titulo": "Hollow Knight",
+        "descripcion": "Juego de acción y aventura en 2D.",
+        "precio": 149.99,
+        "descuento": 0,
+        "stock": 50,
+        "imagen_url": "https://example.com/hollow.jpg",
+        "plataforma": "Steam (PC)",
+        "id_desarrollador": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
