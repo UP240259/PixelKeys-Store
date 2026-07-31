@@ -5,8 +5,8 @@ PixelKeys Store es una aplicación web full-stack para la gestión y visualizaci
 ---
 
 ## 👨‍💻 Equipo de Desarrollo
-* **José de Jesús Hernández Gutiérrez (Pepe)**
-* **Fabiola**
+* **José de Jesús Hernández Gutiérrez**
+* **Fabiola Guadalupe Palomino Badillo**
 
 ---
 
