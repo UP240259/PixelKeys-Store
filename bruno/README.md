@@ -1,12 +1,12 @@
 # 🧪 Pruebas de API con Bruno Client
 
-Esta carpeta contiene la colección completa de peticiones HTTP para probar y validar todos los endpoints de la API REST de **PixelKeys Store**.
+Esta carpeta contiene la colección completa de peticiones HTTP parametrizadas para probar y validar todos los endpoints de la API REST de **PixelKeys Store**.
 
 ---
 
 ## 🛠️ Herramienta Utilizada
 
-* **Bruno API Client:** Cliente de pruebas de API de código abierto y basado en archivos de texto plano (`.bru`).
+* **Bruno API Client:** Cliente de pruebas de API de código abierto, *Git-friendly* y basado en archivos de texto plano (`.bru`).
 
 ---
 
@@ -25,10 +25,16 @@ Esta carpeta contiene la colección completa de peticiones HTTP para probar y va
 
 ---
 
-## 🚀 Instrucciones de Uso
+## 🚀 Instrucciones de Uso (Cómo abrir la colección)
 
 1. Abre la aplicación **Bruno**.
-2. Selecciona la opción **Open Collection**.
-3. Navega hasta el repositorio y selecciona esta carpeta (`bruno/`).
-4. Asegúrate de que el servidor backend en NestJS esté en ejecución (`http://localhost:3000`).
-5. Ejecuta cada petición para revisar el código de respuesta HTTP (`200 OK`, `201 Created`, `204 No Content`).
+2. En el panel superior izquierdo, haz clic en **Open Collection** (o selecciona *Collection -> Open Collection*).
+3. En la ventana del explorador, navega dentro del repositorio local hasta la carpeta `bruno/PixelKeys API`.
+4. Selecciona dicha carpeta y confirma para cargar todas las solicitudes automáticamente en la barra lateral.
+5. Asegúrate de que el servidor backend en NestJS esté en ejecución (`http://localhost:3000`).
+6. Ejecuta cada petición para revisar el código de respuesta HTTP (`200 OK`, `201 Created`, etc.).
+
+---
+
+> ℹ️ **Nota para la Evaluación del Proyecto:**
+> A diferencia de otros clientes que compilan las pruebas en un solo archivo `.json`, **Bruno API Client** almacena las peticiones directamente como artefactos de código en archivos `.bru` dentro de este directorio (`/bruno`). Esto permite un control de versiones nativo en Git y la ejecución directa importando la carpeta mediante la opción **Open Collection**.
