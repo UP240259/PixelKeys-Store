@@ -22,6 +22,10 @@ Esta carpeta contiene la colección completa de peticiones HTTP parametrizadas p
    `PUT http://localhost:3000/juegos/1`
 5. **DELETE - Eliminar un juego:**
    `DELETE http://localhost:3000/juegos/1`
+6. **GET - Obtener juegos con desarrollador (Consulta Relacional 1):**
+   `GET http://localhost:3000/juegos/con-desarrollador`
+7. **GET - Obtener juego por ID con desarrollador (Consulta Relacional 2):**
+   `GET http://localhost:3000/juegos/1/con-desarrollador`
 
 ---
 
