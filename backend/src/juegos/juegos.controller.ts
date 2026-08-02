@@ -11,6 +11,16 @@ export class JuegosController {
         return this.juegosService.findAll();
     }
 
+    @Get('con-desarrollador')
+    obtenerJuegosConDesarrollador() {
+        return this.juegosService.obtenerJuegosConDesarrollador();
+    }
+
+    @Get(':id/con-desarrollador')
+    obtenerJuegoPorIdConDesarrollador(@Param('id', ParseIntPipe) id: number) {
+        return this.juegosService.obtenerJuegoPorIdConDesarrollador(id);
+    }
+
     @Get(':id')
     getOne(@Param('id', ParseIntPipe) id: number): Promise<Juego> {
         return this.juegosService.findOne(id);

@@ -35,4 +35,17 @@ export class JuegosService {
         const juego = await this.findOne(id);
         await this.juegosRepository.remove(juego);
     }
+
+    async obtenerJuegosConDesarrollador(): Promise<Juego[]> {
+        return await this.juegosRepository.find({
+            relations: { desarrollador: true },
+        });
+    }
+
+    async obtenerJuegoPorIdConDesarrollador(id_juego: number): Promise<Juego | null> {
+        return await this.juegosRepository.findOne({
+            where: { id_juego },
+            relations: { desarrollador: true },
+        });
+    }
 }

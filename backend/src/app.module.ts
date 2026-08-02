@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Juego } from './juegos/juego.entity';
+import { Juego, Desarrollador } from './juegos/juego.entity';
 import { JuegosController } from './juegos/juegos.controller';
 import { JuegosService } from './juegos/juegos.service';
 
@@ -13,10 +13,10 @@ import { JuegosService } from './juegos/juegos.service';
       username: 'root',
       password: 'root',
       database: 'pixelkeys_db',
-      entities: [Juego],
+      entities: [Juego, Desarrollador],
       synchronize: false,
     }),
-    TypeOrmModule.forFeature([Juego]),
+    TypeOrmModule.forFeature([Juego, Desarrollador]),
   ],
 
 

@@ -1,4 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+
+@Entity('desarrolladores')
+export class Desarrollador {
+    @PrimaryGeneratedColumn()
+    id_desarrollador!: number;
+
+    @Column()
+    nombre!: string;
+
+    @OneToMany(() => Juego, (juego) => juego.desarrollador)
+    juegos!: Juego[];
+}
 
 @Entity('juegos')
 export class Juego {
@@ -28,4 +40,8 @@ export class Juego {
 
     @Column({ nullable: true })
     id_desarrollador?: number;
+
+    @ManyToOne(() => Desarrollador, (desarrollador) => desarrollador.juegos, { onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'id_desarrollador' })
+    desarrollador?: Desarrollador;
 }
