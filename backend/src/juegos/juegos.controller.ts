@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { JuegosService } from './juegos.service';
 import { Juego } from './juego.entity';
 
@@ -19,6 +19,16 @@ export class JuegosController {
     @Get(':id/con-desarrollador')
     obtenerJuegoPorIdConDesarrollador(@Param('id', ParseIntPipe) id: number) {
         return this.juegosService.obtenerJuegoPorIdConDesarrollador(id);
+    }
+
+    @Get('buscar')
+    buscar(@Query('titulo') titulo?: string, @Query('plataforma') plataforma?: string) {
+        return this.juegosService.buscarFiltros(titulo, plataforma);
+    }
+
+    @Post(':id/comprar')
+    comprar(@Param('id', ParseIntPipe) id: number) {
+        return this.juegosService.comprarJuego(id);
     }
 
     @Get(':id')

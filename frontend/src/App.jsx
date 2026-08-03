@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search, Plus, Pencil, Trash2, X, Gamepad2 } from 'lucide-react';
+import { Search, Plus, Pencil, Trash2, X, Gamepad2, KeyRound } from 'lucide-react';
 import api from './api';
 import './App.css';
 
@@ -43,16 +43,29 @@ function App() {
   // Confirmación de borrado
   const [juegoABorrar, setJuegoABorrar] = useState(null);
 
-  // ---------- Lectura (GET /juegos) ----------
+  // Modal de Compra / Licencia Generada (Punto 10)
+  const [compraExito, setCompraExito] = useState(null);
+  const [comprando, setComprando] = useState(false);
+
+  // ---------- Lectura (GET /juegos/con-desarrollador) ----------
   const cargarJuegos = async () => {
     try {
       setCargando(true);
-      const res = await api.get('/juegos');
+      // Intenta obtener la consulta relacional con desarrollador
+      const res = await api.get('/juegos/con-desarrollador');
       setJuegos(res.data);
       setError('');
     } catch (err) {
-      console.error('Error al obtener juegos:', err);
-      setError('No se pudo conectar con la API. ¿Está corriendo el backend en el puerto 3000?');
+      console.warn('Fallback a /juegos:', err);
+      try {
+        // Fallback al GET tradicional si el backend aún no tuviera la ruta relacional
+        const resFallback = await api.get('/juegos');
+        setJuegos(resFallback.data);
+        setError('');
+      } catch (e) {
+        console.error('Error al obtener juegos:', e);
+        setError('No se pudo conectar con la API. ¿Está corriendo el backend en el puerto 3000?');
+      }
     } finally {
       setCargando(false);
     }
@@ -141,13 +154,32 @@ function App() {
     }
   };
 
+  // ---------- Procesar Compra / Generar CD-Key (POST) ----------
+  const realizarCompra = async (juego) => {
+    try {
+      setComprando(true);
+      const res = await api.post(`/juegos/${juego.id_juego}/comprar`);
+      setCompraExito({
+        titulo: juego.titulo,
+        licenciaKey: res.data.licenciaKey || res.data.key,
+      });
+      await cargarJuegos(); // Recarga el catálogo para mostrar el stock actualizado
+    } catch (err) {
+      console.error('Error al realizar compra:', err);
+      setError(err.response?.data?.message || 'No se pudo procesar la compra.');
+    } finally {
+      setComprando(false);
+    }
+  };
+
   // ---------- Buscador en tiempo real ----------
   const termino = busqueda.trim().toLowerCase();
   const juegosFiltrados = juegos.filter((juego) => {
     if (!termino) return true;
     return (
       juego.titulo?.toLowerCase().includes(termino) ||
-      juego.plataforma?.toLowerCase().includes(termino)
+      juego.plataforma?.toLowerCase().includes(termino) ||
+      juego.desarrollador?.nombre?.toLowerCase().includes(termino)
     );
   });
 
@@ -174,7 +206,7 @@ function App() {
             <Search size={18} className="icono-busqueda" />
             <input
               type="text"
-              placeholder="Buscar por título o plataforma..."
+              placeholder="Buscar por título, plataforma o desarrollador..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
             />
@@ -236,6 +268,14 @@ function App() {
 
                   <div className="cuerpo-tarjeta">
                     <h3>{juego.titulo}</h3>
+                    
+                    {/* Render de la relación con Desarrollador si existe */}
+                    {juego.desarrollador?.nombre && (
+                      <p className="desarrollador-texto" style={{ fontSize: '0.85rem', color: '#66c0f4', marginBottom: '0.5rem' }}>
+                        Desarrollado por: <strong>{juego.desarrollador.nombre}</strong>
+                      </p>
+                    )}
+
                     <p className="descripcion">{juego.descripcion}</p>
 
                     <div className="precios">
@@ -260,11 +300,21 @@ function App() {
                     </p>
 
                     <div className="botones-tarjeta">
-                      <button className="btn btn-secundario" onClick={() => abrirEditar(juego)}>
-                        <Pencil size={16} /> Editar
+                      <button
+                        className="btn btn-primario"
+                        style={{ flex: 1, backgroundColor: juego.stock > 0 ? '#2a475e' : '#444' }}
+                        onClick={() => realizarCompra(juego)}
+                        disabled={juego.stock <= 0 || comprando}
+                        title="Obtener licencia digital"
+                      >
+                        <KeyRound size={16} /> {juego.stock > 0 ? 'Comprar Key' : 'Agotado'}
                       </button>
-                      <button className="btn btn-peligro" onClick={() => setJuegoABorrar(juego)}>
-                        <Trash2 size={16} /> Eliminar
+
+                      <button className="btn btn-secundario" onClick={() => abrirEditar(juego)} title="Editar">
+                        <Pencil size={16} />
+                      </button>
+                      <button className="btn btn-peligro" onClick={() => setJuegoABorrar(juego)} title="Eliminar">
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
@@ -424,6 +474,48 @@ function App() {
               </button>
               <button className="btn btn-peligro" onClick={confirmarBorrado}>
                 <Trash2 size={16} /> Sí, eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ---------- Modal de Compra Exitosa / Key Generada (Punto 10) ---------- */}
+      {compraExito && (
+        <div className="fondo-modal" onClick={() => setCompraExito(null)}>
+          <div className="modal modal-chico" onClick={(e) => e.stopPropagation()}>
+            <div className="encabezado-modal">
+              <h2>¡Compra Exitosa! 🎉</h2>
+              <button className="cerrar" onClick={() => setCompraExito(null)}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <p className="texto-confirmacion" style={{ marginBottom: '1rem' }}>
+              Se ha generado tu clave de activación digital para <strong>{compraExito.titulo}</strong>:
+            </p>
+
+            <div
+              style={{
+                backgroundColor: '#1b2838',
+                color: '#66c0f4',
+                padding: '12px',
+                borderRadius: '6px',
+                textAlign: 'center',
+                fontFamily: 'monospace',
+                fontSize: '1.2rem',
+                border: '1px solid #2a475e',
+                letterSpacing: '1px',
+                userSelect: 'all',
+                marginBottom: '1.5rem',
+              }}
+            >
+              {compraExito.licenciaKey}
+            </div>
+
+            <div className="botones-modal">
+              <button className="btn btn-primario" onClick={() => setCompraExito(null)}>
+                Aceptar
               </button>
             </div>
           </div>
